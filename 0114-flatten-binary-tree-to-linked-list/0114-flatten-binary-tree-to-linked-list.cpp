@@ -12,19 +12,20 @@
 class Solution {
 public:
     void flatten(TreeNode* root) {
-        TreeNode* prev = nullptr;
-        flattenHelper(root, prev);
-    }
-
-private:
-    void flattenHelper(TreeNode* root, TreeNode*& prev) {
-        if (root == nullptr) return;
-
-        flattenHelper(root->right, prev); 
-        flattenHelper(root->left, prev); 
-        
-        root->right = prev;   
-        root->left = nullptr;
-        prev = root;
+        if(root==NULL) return;
+        stack<TreeNode*>st;
+        st.push(root);
+        while(!st.empty()){
+            TreeNode* curr=st.top();
+            st.pop();
+            if(curr->right!=NULL){
+                st.push(curr->right);
+            }
+            if(curr->left!=NULL){
+                st.push(curr->left);
+            }
+            curr->right = st.empty()?NULL: st.top();
+            curr->left=NULL;
+        }
     }
 };
